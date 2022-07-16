@@ -1,6 +1,6 @@
-import 'package:bitcoin/Networking.dart';
+import 'package:bitcoin/Services/Networking.dart';
 import 'package:flutter/material.dart';
-import 'coin_data.dart';
+import 'Data/coin_data.dart';
 //import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -26,12 +26,6 @@ class _PriceScreenState extends State<PriceScreen> {
       pickerItems.add(Text(currencies));
     }
     return pickerItems;*/
-  }
-
-  initState() {
-    Networking net = Networking(
-        'https://rest.coinapi.io/v1/exchangerate/BTC/USD?apikey=68ED95B1-710D-462C-9520-4E4C64BD8DA0');
-    net.getData();
   }
 
   @override
