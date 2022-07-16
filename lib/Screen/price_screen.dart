@@ -1,4 +1,5 @@
 import 'package:bitcoin/Data/fetchData.dart';
+import 'package:bitcoin/Screen/CardTile.dart';
 import 'package:bitcoin/Services/Networking.dart';
 import 'package:flutter/material.dart';
 import '../Data/coin_data.dart';
@@ -13,9 +14,9 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-  var selectedCurrency = currenciesList[0];
+  String selectedCurrency = currenciesList[0], coin = cryptoList[0];
   int indexChose = 0;
-  String rate = '?';
+  List<String> rate = ['?', '?', '?'];
 
   List<Widget> getPicker() {
     List<Text> pickerItems = currenciesList.map((String items) {
@@ -36,15 +37,19 @@ class _PriceScreenState extends State<PriceScreen> {
   @override
   void initState() {
     super.initState();
-    getRate('BTC', currenciesList[indexChose]);
+    getRate(currenciesList[indexChose]);
   }
 
   @override
-  void getRate(String coin, String currency) async {
-    double data = await FetchData().fetchData(coin, currency);
-    setState(() {
-      rate = data.toStringAsFixed(0);
-    });
+  void getRate(String currency) async {
+    int index = 0;
+    for (String coin in cryptoList) {
+      double data = await FetchData().fetchData(coin, currency);
+      setState(() {
+        rate[index] = data.toStringAsFixed(0);
+      });
+      index++;
+    }
   }
 
   @override
@@ -57,27 +62,13 @@ class _PriceScreenState extends State<PriceScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-            child: Card(
-              color: const Color(0xFF5B8291),
-              elevation: 5.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 15.0, horizontal: 28.0),
-                child: Text(
-                  '1 BTC = $rate ${currenciesList[indexChose]}',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              CardTile(cryptoList[0], rate[0], indexChose),
+              CardTile(cryptoList[1], rate[1], indexChose),
+              CardTile(cryptoList[2], rate[2], indexChose),
+            ],
           ),
           Container(
             height: 150.0,
@@ -89,7 +80,7 @@ class _PriceScreenState extends State<PriceScreen> {
               itemExtent: 32.0,
               onSelectedItemChanged: (selectedIndex) {
                 indexChose = selectedIndex;
-                getRate('BTC', currenciesList[indexChose]);
+                getRate(currenciesList[indexChose]);
               },
               magnification: 1.05,
               children: getPicker(),
