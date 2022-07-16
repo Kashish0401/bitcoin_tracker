@@ -1,3 +1,4 @@
+import 'package:bitcoin/Data/fetchData.dart';
 import 'package:bitcoin/Services/Networking.dart';
 import 'package:flutter/material.dart';
 import 'Data/coin_data.dart';
@@ -11,6 +12,8 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   var selectedCurrency = currenciesList[0];
+  int indexChose = 0;
+  String rate = '?';
 
   List<Widget> getPicker() {
     List<Text> PickerItems = currenciesList.map((String items) {
@@ -26,6 +29,19 @@ class _PriceScreenState extends State<PriceScreen> {
       pickerItems.add(Text(currencies));
     }
     return pickerItems;*/
+  }
+
+  @override
+  void initState() {
+    getRate('BTC', currenciesList[indexChose]);
+  }
+
+  @override
+  void getRate(String coin, String currency) async {
+    double data = await FetchData().fetchData(coin, currency);
+    setState(() {
+      rate = data.toStringAsFixed(0);
+    });
   }
 
   @override
@@ -50,7 +66,7 @@ class _PriceScreenState extends State<PriceScreen> {
                 padding: const EdgeInsets.symmetric(
                     vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ? USD',
+                  '1 BTC = $rate ${currenciesList[indexChose]}',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
@@ -68,7 +84,10 @@ class _PriceScreenState extends State<PriceScreen> {
             child: CupertinoPicker(
               //backgroundColor: Colors.lightBlue,
               itemExtent: 32.0,
-              onSelectedItemChanged: (selectedIndex) {},
+              onSelectedItemChanged: (selectedIndex) {
+                indexChose = selectedIndex;
+                getRate('BTC', currenciesList[indexChose]);
+              },
               children: getPicker(),
             ),
           ),
