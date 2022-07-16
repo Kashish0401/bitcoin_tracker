@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'price_screen.dart';
+import 'Screen/price_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,8 +9,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
-          primaryColor: Colors.lightBlue,
-          scaffoldBackgroundColor: Colors.white),
+          primaryColor: Color(0xFF5B8291),
+          scaffoldBackgroundColor: Color(0xFF2E424D)),
       home: PriceScreen(),
     );
   }

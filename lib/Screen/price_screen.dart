@@ -1,11 +1,13 @@
 import 'package:bitcoin/Data/fetchData.dart';
 import 'package:bitcoin/Services/Networking.dart';
 import 'package:flutter/material.dart';
-import 'Data/coin_data.dart';
+import '../Data/coin_data.dart';
 //import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter/cupertino.dart';
 
 class PriceScreen extends StatefulWidget {
+  const PriceScreen({Key? key}) : super(key: key);
+
   @override
   _PriceScreenState createState() => _PriceScreenState();
 }
@@ -16,13 +18,13 @@ class _PriceScreenState extends State<PriceScreen> {
   String rate = '?';
 
   List<Widget> getPicker() {
-    List<Text> PickerItems = currenciesList.map((String items) {
+    List<Text> pickerItems = currenciesList.map((String items) {
       return Text(
         items,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       );
     }).toList();
-    return PickerItems;
+    return pickerItems;
     /*
     List<Text> pickerItems = [];
     for (String currencies in currenciesList) {
@@ -33,6 +35,7 @@ class _PriceScreenState extends State<PriceScreen> {
 
   @override
   void initState() {
+    super.initState();
     getRate('BTC', currenciesList[indexChose]);
   }
 
@@ -48,16 +51,16 @@ class _PriceScreenState extends State<PriceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('🤑 Coin Ticker'),
+        title: const Center(child: Text('Crypto Price')),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
+            padding: const EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
             child: Card(
-              color: Colors.lightBlueAccent,
+              color: const Color(0xFF5B8291),
               elevation: 5.0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -68,7 +71,7 @@ class _PriceScreenState extends State<PriceScreen> {
                 child: Text(
                   '1 BTC = $rate ${currenciesList[indexChose]}',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20.0,
                     color: Colors.white,
                   ),
@@ -79,8 +82,8 @@ class _PriceScreenState extends State<PriceScreen> {
           Container(
             height: 150.0,
             alignment: Alignment.center,
-            padding: EdgeInsets.only(bottom: 30.0),
-            color: Colors.lightBlue,
+            padding: const EdgeInsets.only(bottom: 30.0),
+            color: const Color(0xFF5B8291),
             child: CupertinoPicker(
               //backgroundColor: Colors.lightBlue,
               itemExtent: 32.0,
@@ -88,6 +91,7 @@ class _PriceScreenState extends State<PriceScreen> {
                 indexChose = selectedIndex;
                 getRate('BTC', currenciesList[indexChose]);
               },
+              magnification: 1.05,
               children: getPicker(),
             ),
           ),
