@@ -1,3 +1,4 @@
+import 'package:bitcoin/Networking.dart';
 import 'package:flutter/material.dart';
 import 'coin_data.dart';
 //import 'package:flutter_picker/flutter_picker.dart';
@@ -27,6 +28,12 @@ class _PriceScreenState extends State<PriceScreen> {
     return pickerItems;*/
   }
 
+  initState() {
+    Networking net = Networking(
+        'https://rest.coinapi.io/v1/exchangerate/BTC/USD?apikey=68ED95B1-710D-462C-9520-4E4C64BD8DA0');
+    net.getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +53,8 @@ class _PriceScreenState extends State<PriceScreen> {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 15.0, horizontal: 28.0),
                 child: Text(
                   '1 BTC = ? USD',
                   textAlign: TextAlign.center,
@@ -64,12 +72,19 @@ class _PriceScreenState extends State<PriceScreen> {
             padding: EdgeInsets.only(bottom: 30.0),
             color: Colors.lightBlue,
             child: CupertinoPicker(
-              backgroundColor: Colors.lightBlue,
+              //backgroundColor: Colors.lightBlue,
               itemExtent: 32.0,
               onSelectedItemChanged: (selectedIndex) {},
               children: getPicker(),
             ),
-            /*DropdownButton(
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/*DropdownButton(
               value: selectedCurrency,
               items: currenciesList.map((String dropDownItems) {
                 return DropdownMenuItem(
@@ -83,12 +98,3 @@ class _PriceScreenState extends State<PriceScreen> {
                 });
               },
             ),*/
-          ),
-        ],
-      ),
-    );
-  }
-}
-/*
-
- */
