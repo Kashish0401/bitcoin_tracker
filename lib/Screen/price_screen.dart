@@ -1,9 +1,7 @@
 import 'package:bitcoin/Data/fetchData.dart';
 import 'package:bitcoin/Screen/CardTile.dart';
-import 'package:bitcoin/Services/Networking.dart';
 import 'package:flutter/material.dart';
 import '../Data/coin_data.dart';
-//import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter/cupertino.dart';
 
 class PriceScreen extends StatefulWidget {
@@ -14,7 +12,7 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-  String selectedCurrency = currenciesList[0], coin = cryptoList[0];
+  String selectedCurrency = currenciesList[0];
   int indexChose = 0;
   List<String> rate = ['?', '?', '?'];
 
@@ -40,15 +38,17 @@ class _PriceScreenState extends State<PriceScreen> {
     getRate(currenciesList[indexChose]);
   }
 
-  @override
   void getRate(String currency) async {
-    int index = 0;
-    for (String coin in cryptoList) {
-      double data = await FetchData().fetchData(coin, currency);
-      setState(() {
-        rate[index] = data.toStringAsFixed(0);
-      });
-      index++;
+    try {
+      int index = 0;
+      for (String coin in cryptoList) {
+        double data = await FetchData().fetchData(coin, currency);
+        setState(() {
+          rate[index++] = data.toStringAsFixed(0);
+        });
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
