@@ -39,16 +39,12 @@ class _PriceScreenState extends State<PriceScreen> {
   }
 
   void getRate(String currency) async {
-    try {
-      int index = 0;
-      for (String coin in cryptoList) {
-        double data = await FetchData().fetchData(coin, currency);
-        setState(() {
-          rate[index++] = data.toStringAsFixed(0);
-        });
-      }
-    } catch (e) {
-      print(e);
+    int index = 0;
+    for (String coin in cryptoList) {
+      double data = await FetchData().fetchData(coin, currency);
+      setState(() {
+        rate[index++] = data.toStringAsFixed(0);
+      });
     }
   }
 
